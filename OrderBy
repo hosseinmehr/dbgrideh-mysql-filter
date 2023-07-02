@@ -1,0 +1,32 @@
+procedure TForm1.dbg1SortMarkingChanged(Sender: TObject);
+var
+    i: Integer;
+    FieldName: string;
+
+    Column: TColumnEh;
+    SortType: TSortMarkerEh;
+    OrderBy : string;
+begin
+    OrderBy := '';
+    for i := 0 to dbg1.SortMarkedColumns.Count - 1 do
+    begin
+        Column := dbg1.SortMarkedColumns[i];
+
+        // Get the sort type of the column
+        SortType := Column.Title.SortMarker;
+        FieldName := Column.FieldName;
+        if OrderBy = '' then
+            OrderBy := FieldName
+        else
+            OrderBy := OrderBy + ',' + FieldName;
+        if SortType = smDownEh then
+            OrderBy := OrderBy + ' DESC';
+    end;
+    if OrderBy = '' then
+        OrderBy := 'l.id ';
+
+    MyQuery1.SQL[MyQuery1.SQL.Count - 1] := ' order by ' + OrderBy;
+    MyQuery1.Open;
+
+
+end;
