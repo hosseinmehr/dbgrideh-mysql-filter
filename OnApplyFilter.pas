@@ -1,6 +1,6 @@
 procedure TForm1.dbg1ApplyFilter(Sender: TObject);
 const
-    // RelaceFieldsArray: array of array of string = [['module_id','module_name'], ['office_id','office_name'], ['user_id_creatore','user_name_creatore']];
+    Operators: array [1..10] of string = ('<=', '>=', '<>', 'NOT LIKE', 'LIKE', 'NOT IN', 'IN' ,'=', '<', '>');
     RelaceFieldsArray: array of array of string = [
         ['module_name', 'm.name'],
         ['office_name', 'o.name'],
@@ -10,6 +10,8 @@ const
         ['<>NULL',' IS NOT NULL'],
         ['<> NULL',' IS NOT NULL']
         ];
+
+    
 var
     FilterExpression: string;
     i: Integer;
@@ -127,19 +129,13 @@ begin
             FilterExpression := StringReplace(FilterExpression, RelaceFieldsArray[i, 0], RelaceFieldsArray[i, 1], [rfReplaceAll, rfIgnoreCase]);
         end;
 
-        DM.qLicences.SQL[DM.qLicences.SQL.Count - 2] := 'where ' + FilterExpression;
-        DM.qLicences.Open;
-        // dbg1.DataSource.DataSet.Filter := FilterExpression;
-        // dbg1.DataSource.DataSet.Filtered := True;
+        MyQuery1.SQL[MyQuery1.Count - 2] := 'where ' + FilterExpression;
+        MyQuery1.Open;
     end
     else
     begin
         DM.qLicences.SQL[DM.qLicences.SQL.Count - 2] := 'where 1=1 ';
         DM.qLicences.Open;
-        // dbg1.DataSource.DataSet.Filter := '';
-        // dbg1.DataSource.DataSet.Filtered := False;
     end;
 
-    // Refresh the dataset to reflect the filtered rows in the grid
-    // dbg1.DataSource.DataSet.Refresh;
 end;
