@@ -1,3 +1,18 @@
+
+function PosOperator(const Str: string; var index:Integer): Integer;
+var
+  I: Integer;
+begin
+  for I := Low(Operators) to High(Operators) do
+  begin
+    index := I;
+    Result := Pos(UpperCase(Operators[I]), Str);
+    if Result > 0 then
+      Exit;
+  end;
+  Result := 0;
+end;
+
 procedure TForm1.dbg1ApplyFilter(Sender: TObject);
 const
     Operators: array [1..10] of string = ('<=', '>=', '<>', 'NOT LIKE', 'LIKE', 'NOT IN', 'IN' ,'=', '<', '>');
